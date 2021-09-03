@@ -32,20 +32,25 @@ clientsRouter.post('/', (req: Request, res: Response) => {
         })
     }
 })  
-clientsRouter.put('/', (req: Request, res: Response) => {
+clientsRouter.post('/', (req: Request, res: Response) => {
     const { name, phone } = req.body
-    const client = new Client(idCounter, name, phone)
-        return res.status(202).json({
-            message: 'Client created'
-})  
-
-})
-clientsRouter.Delete('/', (req: Request, res: Response) => {
-    const { id}=req.params
+    const Client = new  clientsRouter (idCounter, name, phone)
+    if (clientCtrl.delete(Client)){
+        idCounter++
+        /**
+         * 204 -Content
+         */
         return res.status(204).json({
-            message: 'Client created'
-})  
-
+            message: 'Client delete'
+        })
+     }   else {
+            /**
+             *202   - Accepted
+             */
+        return res.status(202).json({
+            message: 'clent  atualizando'
+        })  
+     }
 })
 clientsRouter.get('/', (req: Request, res: Response) => {
     return res.json({ clients: clientCtrl.findAll() })
